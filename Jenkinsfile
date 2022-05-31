@@ -1,7 +1,6 @@
 pipeline {
     environment {
         registry = "18.236.246.100:5000"
-        registry_credentials = "registry-auth"
     }
     agent none
     stages {
@@ -37,7 +36,7 @@ pipeline {
             agent any
             steps {
                 script {
-                    docker.withRegistry("18.236.246.100:5000", "registry-auth") {
+                    docker.withRegistry("18.236.246.100:5000") {
                         app.push("${env.BUILD_NUMBER}")
                         app.push("latest")
                     }
