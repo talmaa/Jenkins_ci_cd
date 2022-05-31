@@ -7,7 +7,7 @@
 ```
 
 ```aws
-.ec2 18.236.246.100 22
+.ec2 18.236.246.xxx 22
 Docker
 ├──jenkins/jenkins:lts 8080
 └──registry:latest 5000
