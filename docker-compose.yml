@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  jenkins:
+    #privileged: true
+    container_name: jenkins_master
+    build: .
+    restart: always
+    ports:
+        - "8080:8080"
+    volumes:
+        - /jenkins:/var/jenkins_home
+    restart: always
+    environment:
+      TZ: "Asia/Seoul"
+      DOCKER_HOST: "tcp://docker:2376"
+      DOCKER_CERT_PATH: "/certs/client"
+      DOCKER_TLS_VERIFY: "1"
+
+  local-registry:
+    image: registry:latest
+    environment:
+      - ConnectionString=Server=sqldata;Initial Catalog=CatalogData;User Id=sa;Password=[PLACEHOLDER]
+    ports:
+      - "5000:5000"
+    restart: always
+    volumes:
+      - /data/registry:/var/lib/registry/docker/registry/v2
