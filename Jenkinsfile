@@ -1,6 +1,6 @@
 pipeline {
     environment {
-        registry = "54.212.157.65:5000"
+        registry = "13.209.42.186:5000"
     }
     agent none
     stages {
@@ -27,7 +27,7 @@ pipeline {
             agent any
             steps {
                 script {
-                    app = docker.build 'talma/acmipc'
+                    app = docker.build '13.209.42.186:5000/acmipc'
                 }
             }
         }
@@ -36,7 +36,7 @@ pipeline {
             agent any
             steps {
                 script {
-                    docker.withRegistry("54.212.157.65:5000") {
+                    docker.withRegistry("13.209.42.186:5000") {
                         app.push("${env.BUILD_NUMBER}")
                         app.push("latest")
                     }
