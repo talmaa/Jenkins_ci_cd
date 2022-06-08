@@ -40,4 +40,28 @@ sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-
 sudo chmod +x /usr/local/bin/docker-compose
 
 sudo usermod -aG docker $USER
+
+docker network create aws_service
+
+docker-compose up --build
+
+^C
+
+sudo chown -R 1000:1000 jenkins-data
+
+sudo chown -R 1000:1000 jenkins-docker-certs
+
+docker-compose up --build -d
+
+
+```
+
+## Public key pair
+```
+ssh-keygen -m PEM -f [키경로] -q N ""
+
+dir
+
+[키].key       <-- 내가 EC2에 접속 할때 쓰는 키
+[키].key.pub   <-- 내가 클라우드 키페어에 등록하는 키 
 ```
