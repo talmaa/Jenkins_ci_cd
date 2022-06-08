@@ -1,3 +1,4 @@
+docker-compose.yml
 version: '3'
 
 services:
@@ -8,14 +9,44 @@ services:
     restart: always
     ports:
         - "8080:8080"
+        - "50000:50000"
+    expose:
+        - "8080"
+        - "50000"
     volumes:
-        - /jenkins:/var/jenkins_home
-    restart: always
+        - /jenkins-data:/var/jenkins_home
+        - /jenkins-docker-certs:/certs/client:ro
+    depends_on:
+      - dind
+    links:
+      - "dind:docker"
     environment:
       TZ: "Asia/Seoul"
       DOCKER_HOST: "tcp://docker:2376"
       DOCKER_CERT_PATH: "/certs/client"
       DOCKER_TLS_VERIFY: "1"
+    networks:
+      - service
+      - jenkins_local
+
+  dind:
+    image: docker:dind
+    container_name: jenkins_docker
+    privileged: true
+    restart: always
+    environment:
+      DOCKER_TLS_CERTDIR: /certs
+    expose:
+      - "3000"
+      - "2376"
+    ports:
+      - "3000:3000"
+      - "2376:2376"
+    volumes:
+      - /jenkins-docker-certs:/certs/client
+      - /jenkins-data:/var/jenkins_home
+    networks:
+      - jenkins_local
 
   local-registry:
     image: registry:latest
@@ -26,3 +57,14 @@ services:
     restart: always
     volumes:
       - /data/registry:/var/lib/registry/docker/registry/v2
+
+networks:
+  service:
+    name: aws_service
+    external: true
+  jenkins_local:
+
+volumes:
+  jenkins_home_agent1:
+  jenkins-docker-certs:
+  jenkins-data:
