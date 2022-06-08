@@ -1,7 +1,7 @@
 resource "aws_security_group" "example-allow-all" {
   name = "example-allow_all"
   description = "Allow all inbound traffic"
-  vpc_id = "${aws_vpc.example.id}"
+  vpc_id = "${aws_vpc.vpc.id}"
 
   ingress {
     from_port = 0
