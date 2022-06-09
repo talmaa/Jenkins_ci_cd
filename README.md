@@ -33,7 +33,7 @@ echo \
 
 sudo apt-get update
 
-sudo apt-get install docker-ce docker-ce-cli containerd.io
+sudo apt-get -y install docker-ce docker-ce-cli containerd.io
 
 sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 
@@ -64,4 +64,7 @@ dir
 
 [키].key       <-- 내가 EC2에 접속 할때 쓰는 키
 [키].key.pub   <-- 내가 클라우드 키페어에 등록하는 키 
+
+chmod 400 [키].key
+ssh -i [키].key ubuntu@[privte_cloud]
 ```
